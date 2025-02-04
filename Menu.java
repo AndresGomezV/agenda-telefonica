@@ -7,6 +7,7 @@ public class Menu {
     Scanner scanner = new Scanner(System.in);
 
     int opcion;
+
     String opciones = """
             
                  ============================
@@ -49,15 +50,17 @@ public class Menu {
         System.out.println(opcionesAgenda);
         String entradaAgenda = scanner.nextLine();
 
-        while(entradaAgenda.isEmpty()) {
+        //Se repite el menú si el usuario no ingresa un valor
+        while (entradaAgenda.isEmpty()) {
             System.out.println("No ingresaste ninguna opción. Inténtalo de nuevo.");
             System.out.println(opcionesAgenda);
             entradaAgenda = scanner.nextLine();
         }
 
+        //Convierte la entrada String a un entero
         int respuesta = Integer.parseInt(entradaAgenda);
 
-
+        //El usuario tiene la opción de crear una agenda con 10 espacios por defecto o determinar su capacidad
         if (respuesta == 1) {
             System.out.println("Ingresa la capacidad máxima de tu agenda: ");
             int capacidad = Integer.parseInt(scanner.nextLine());
@@ -67,6 +70,7 @@ public class Menu {
             agenda = new Agenda();
             System.out.println("Tu agenda ha sido creada exitosamente, capacidad: " + 10 + " contactos");
         }
+
 
         do {
             System.out.println(opciones);
@@ -87,6 +91,7 @@ public class Menu {
                 case 2 -> agenda.verificarContacto();
                 case 3 -> agenda.listarContactos();
                 case 4 -> {
+                    //Primero verifica si la agenda está vacía para evitar preguntar al usuario el metodo de búsqueda. Ya que permite buscar al contacto por nombre y apellido o por teléfono
                     if (agenda.agendaVacia()) {
                         System.out.println(opcionesBuscar);
                         opcion = Integer.parseInt(scanner.nextLine());
@@ -102,7 +107,7 @@ public class Menu {
                 case 5 -> agenda.eliminarContacto();
                 case 6 -> agenda.modificarTelefono();
                 case 7 -> agenda.agendaLlena();
-                case 8 -> System.out.println("Saliendo, hasta luego.");
+                case 8 -> System.out.println("¡Hasta pronto! Gracias por usar la agenda. 😊");
                 default -> System.out.println("Opción inválida, intenta nuevamente.");
             }
         } while (opcion != 8);

@@ -1,11 +1,12 @@
 package Hackathon2;
 
 public class Contacto {
-    String nombre;
-    String apellido;
-    String nombreApellido;
-    String telefono;
+    private String nombre;
+    private String apellido;
+    private String nombreApellido;
+    private String telefono;
 
+    //Constructores
     public Contacto() {
     }
 
@@ -17,6 +18,7 @@ public class Contacto {
         this.telefono = telefono;
     }
 
+    //Getters y Setters
     public String getNombre() {
         return nombre;
     }
