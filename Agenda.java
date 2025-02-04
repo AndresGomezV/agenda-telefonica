@@ -146,9 +146,9 @@ public class Agenda {
     }
 
     public void buscarContactoNombreApellido() {
-
         // Solicita el nombre y apellido
         String nombreApellidoVerificar = pedirNombreApellido();
+        boolean encontrado = false;
 
         // Recorre todos los contactos en el TreeMap
         for (Contacto contacto : contactos.values()) {
@@ -156,34 +156,36 @@ public class Agenda {
             if (contacto.getNombreApellido().equalsIgnoreCase(nombreApellidoVerificar)) {
                 // Si el contacto fue encontrado, imprime detalles del contacto
                 System.out.println("Contacto encontrado: " + contacto.getNombreApellido() + ", Teléfono: " + contacto.getTelefono());
-
+                encontrado = true;
                 break; // Sale del bucle si el contacto fue encontrado
-            } else {
-                // Si se indica que no se encontró el contacto, imprime un mensaje de búsqueda fallida
-                System.out.println("El contacto " + nombreApellidoVerificar + " no se encuentra en tu lista de contactos.");
             }
         }
 
+        // Si no se encontró el contacto, imprime un mensaje
+        if (!encontrado) {
+            System.out.println("El contacto " + nombreApellidoVerificar + " no se encuentra en tu lista de contactos.");
+        }
     }
 
+
     public void buscarContactoTelefono() {
-
         String telefonoVerificar = pedirTelefono();
+        boolean encontrado = false;
+
         for (Contacto contacto : contactos.values()) {
-
-            // Compara el nombre y el apellido del contacto
+            // Compara el teléfono del contacto
             if (contacto.getTelefono().equals(telefonoVerificar)) {
-
                 // Si el contacto fue encontrado, imprime detalles del contacto
                 System.out.println("Contacto encontrado: " + contacto.getNombreApellido() + ", Teléfono: " + contacto.getTelefono());
-
+                encontrado = true;
                 break; // Sale del bucle si el contacto fue encontrado
-            } else {
-                // Si se indica que no se encontró el contacto, imprime un mensaje de búsqueda fallida
-                System.out.println("El contacto con número de teléfono " + telefonoVerificar + " no se encuentra en tu lista de contactos.");
             }
         }
 
+        // Si no se encontró el contacto, imprime un mensaje
+        if (!encontrado) {
+            System.out.println("El contacto con número de teléfono " + telefonoVerificar + " no se encuentra en tu lista de contactos.");
+        }
     }
 
     public void eliminarContacto() {
