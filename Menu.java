@@ -6,34 +6,57 @@ public class Menu {
     //Inicializa el scanner
     Scanner scanner = new Scanner(System.in);
 
-    String opciones = """
-                    1. Añadir un contacto.
-                    2. Verificar si un contacto existe.
-                    3. Listar todos mis contactos.
-                    4. Buscar un contacto.
-                    5. Eliminar un contacto.
-                    6. Modificar el número de teléfono de un contacto.
-                    7. ¿Mi agenda está llena o tengo espacios libres?
-                    8. Salir.
-                    """;
     int opcion;
+    String opciones = """
+            
+                 ============================
+                        Menú Contactos
+                 ============================
+            
+            ¿Qué deseas hacer? Selecciona una de las siguientes opciones:
+            
+            1. Añadir un contacto.
+            2. Verificar si un contacto existe.
+            3. Listar todos mis contactos.
+            4. Buscar un contacto.
+            5. Eliminar un contacto.
+            6. Modificar el número de teléfono de un contacto.
+            7. ¿Mi agenda está llena o tengo espacios libres?
+            8. Salir.
+            """;
+
     String opcionesAgenda = """
+            
+                 =============================
+                          Menú Agenda
+                 =============================
+            
             ¿Deseas definir el tamaño de la agenda?
             1. Sí.
             2. No.
             """;
 
-    public void menuAgenda() throws Exception {
-        System.out.println("============================");
-        System.out.println("        Menú Agenda         ");
-        System.out.println("============================ \n");
-        System.out.println(opcionesAgenda);
+    String opcionesBuscar = """
+            ¿Cómo deseas buscar el contacto?
+            1. Nombre y apellido.
+            2. Teléfono.
+            """;
 
-        int respuesta = Integer.parseInt(scanner.nextLine());
+    public void menuAgenda() {
+        System.out.println(opcionesAgenda);
+        String entradaAgenda = scanner.nextLine();
+
+        while(entradaAgenda.isEmpty()) {
+            System.out.println("No ingresaste ninguna opción. Inténtalo de nuevo.");
+            System.out.println(opcionesAgenda);
+            entradaAgenda = scanner.nextLine();
+        }
+
+        int respuesta = Integer.parseInt(entradaAgenda);
         Agenda agenda;
         if (respuesta == 1) {
             System.out.println("Ingresa la capacidad máxima de tu agenda: ");
-            int capacidad =  Integer.parseInt(scanner.nextLine());
+            int capacidad = Integer.parseInt(scanner.nextLine());
             agenda = new Agenda(capacidad);
             System.out.println("Tu agenda ha sido creada exitosamente, capacidad: " + capacidad + " contactos");
         } else {
@@ -41,18 +64,37 @@ public class Menu {
             System.out.println("Tu agenda ha sido creada exitosamente, capacidad: " + 10 + " contactos");
         }
 
-        System.out.println("============================");
-        System.out.println("      Menú Contactos  ");
-        System.out.println("============================");
-
         do {
             System.out.println(opciones);
-            opcion = Integer.parseInt(scanner.nextLine());
+            String entrada = scanner.nextLine().trim();
+
+            // Verificar si el usuario presionó Enter sin ingresar un número
+            if (entrada.isEmpty()) {
+                System.out.println("No ingresaste ninguna opción. Inténtalo de nuevo.");
+                // Regresa al inicio del bucle sin ejecutar el switch
+                continue;
+            }
+
+            // Convertir entrada a entero
+            opcion = Integer.parseInt(entrada);
+
             switch (opcion) {
                 case 1 -> agenda.agregarContacto();
                 case 2 -> agenda.verificarContacto();
                 case 3 -> agenda.listarContactos();
-                case 4 -> agenda.buscarContacto();
+                case 4 -> {
+                    if (!agenda.agendaVacia()) {
+                        System.out.println(opcionesBuscar);
+                        opcion = Integer.parseInt(scanner.nextLine());
+                        if (opcion == 1) {
+                            agenda.buscarContactoNombreApellido();
+                        } else if (opcion == 2) {
+                            agenda.buscarContactoTelefono();
+                        } else {
+                            System.out.println("Opción inválida. Intenta nuevamente");
+                        }
+                    }
+                }
                 case 5 -> agenda.eliminarContacto();
                 case 6 -> agenda.modificarTelefono();
                 case 7 -> agenda.agendaLlena();
@@ -60,8 +102,5 @@ public class Menu {
                 default -> System.out.println("Opción inválida, intenta nuevamente.");
             }
         } while (opcion != 8);
-
-
     }
-
 }
