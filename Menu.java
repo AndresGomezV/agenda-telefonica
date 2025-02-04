@@ -33,7 +33,9 @@ public class Menu {
             
             ¿Deseas definir el tamaño de la agenda?
             1. Sí.
-            2. No.
+            
+            Ingresa cualquier número para inicializar tu agenda con un máximo de 10 contactos.
+            
             """;
 
     String opcionesBuscar = """
@@ -43,6 +45,7 @@ public class Menu {
             """;
 
     public void menuAgenda() {
+        Agenda agenda;
         System.out.println(opcionesAgenda);
         String entradaAgenda = scanner.nextLine();
 
@@ -53,7 +56,8 @@ public class Menu {
         }
 
         int respuesta = Integer.parseInt(entradaAgenda);
-        Agenda agenda;
+
+
         if (respuesta == 1) {
             System.out.println("Ingresa la capacidad máxima de tu agenda: ");
             int capacidad = Integer.parseInt(scanner.nextLine());
@@ -83,7 +87,7 @@ public class Menu {
                 case 2 -> agenda.verificarContacto();
                 case 3 -> agenda.listarContactos();
                 case 4 -> {
-                    if (!agenda.agendaVacia()) {
+                    if (agenda.agendaVacia()) {
                         System.out.println(opcionesBuscar);
                         opcion = Integer.parseInt(scanner.nextLine());
                         if (opcion == 1) {

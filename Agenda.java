@@ -34,7 +34,7 @@ public class Agenda {
         String nombre, apellido;
 
         do {
-            System.out.println("Ingrese el nombre del contacto: ");
+            System.out.println("Ingresa el nombre del contacto: ");
             nombre = scanner.nextLine().trim();
 
             if (nombre.isEmpty()) {
@@ -44,7 +44,7 @@ public class Agenda {
 
         do {
 
-            System.out.println("Ingrese el apellido del contacto: ");
+            System.out.println("Ingresa el apellido del contacto: ");
             apellido = scanner.nextLine().trim();
 
             if (apellido.isEmpty()) {
@@ -59,8 +59,11 @@ public class Agenda {
     public String pedirTelefono() {
         String telefono;
         do {
-            System.out.println("Ingrese el teléfono del contacto: ");
+            System.out.println("Ingresa el teléfono del contacto: ");
             telefono = scanner.nextLine();
+            if (telefono.isEmpty()) {
+                System.out.println("El teléfono no puede estar vacío, inténtalo nuevamente");
+            }
         } while (telefono.isEmpty());
 
         return telefono;
@@ -71,7 +74,7 @@ public class Agenda {
 
         //Primero verifica si es posible añadir otro contacto
         if (verificarAgendaLlena()) {
-            System.out.println("La agenda está llena. No se pueden añadir más contactos.");
+            System.out.println("Tu agenda está llena. No puedes añadir más contactos.");
         } else {
             // Solicitar datos al usuario
             String nombreApellido = pedirNombreApellido();
@@ -96,15 +99,15 @@ public class Agenda {
     }
 
     public void verificarContacto() {
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
             //Se solicita al usuario que ingrese nombre y apellido del contacto a verificar
             String nombreApellidoVerificar = pedirNombreApellido();
             String nombreFormat = nombreApellidoVerificar.substring(0, 1).toUpperCase() + nombreApellidoVerificar.substring(1).toLowerCase();
 
             if (!verificadorContacto(nombreApellidoVerificar)) {
-                System.out.println("El contacto " + nombreFormat + " no existe en su lista de contactos.");
+                System.out.println("El contacto " + nombreFormat + " no se encuentra en tu lista de contactos.");
             } else {
-                System.out.println("El contacto " + nombreFormat + " si fué encontrado en su lista de contactos.");
+                System.out.println("El contacto " + nombreFormat + " si se encuentra en tu lista de contactos.");
             }
         }
     }
@@ -113,14 +116,14 @@ public class Agenda {
         if (contactos.isEmpty()) {
             System.out.println("Actualmente no tienes contactos en tu agenda");
         }
-        return contactos.isEmpty();
+        return !contactos.isEmpty();
     }
 
 
     public void listarContactos() {
 
         //Si no hay contactos, notifica al usuario
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
             System.out.println("Contactos: ");
             System.out.printf("%-20s | %14s%n", "Nombre y Apellido", "Teléfono");
             System.out.println("-------------------------------------");
@@ -133,7 +136,7 @@ public class Agenda {
     }
 
     public void buscarContactoNombreApellido() {
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
             // Solicita el nombre y apellido o telefono
             String nombreApellidoVerificar = pedirNombreApellido();
 
@@ -148,7 +151,7 @@ public class Agenda {
                     break; // Sale del bucle si el contacto fue encontrado
                 } else {
                     // Si se indica que no se encontró el contacto, imprime un mensaje de búsqueda fallida
-                    System.out.println("Contacto no encontrado.");
+                    System.out.println("El contacto " + nombreApellidoVerificar + " no se encuentra en tu lista de contactos.");
                 }
             }
         }
@@ -156,7 +159,7 @@ public class Agenda {
 
     public void buscarContactoTelefono() {
 
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
             String telefonoVerificar = pedirTelefono();
             for (Contacto contacto : contactos.values()) {
 
@@ -169,19 +172,19 @@ public class Agenda {
                     break; // Sale del bucle si el contacto fue encontrado
                 } else {
                     // Si se indica que no se encontró el contacto, imprime un mensaje de búsqueda fallida
-                    System.out.println("Contacto no encontrado.");
+                    System.out.println("El contacto con número de teléfono " + telefonoVerificar + " no se encuentra en tu lista de contactos.");
                 }
             }
         }
     }
 
     public void eliminarContacto() {
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
             // Solicitar datos al usuario
             String contactoEliminar = pedirNombreApellido();
 
             if (!contactos.containsKey(contactoEliminar)) {
-                System.out.println("No se encontró un contacto llamado " + contactoEliminar);
+                System.out.println("El contacto " + contactoEliminar + " no se encuentra en tu lista de contactos.");
             } else {
                 contactos.remove(contactoEliminar);
                 System.out.println("El contacto " + contactoEliminar + " ha sido eliminado exitosamente.");
@@ -190,12 +193,11 @@ public class Agenda {
     }
 
     public void modificarTelefono() {
-        if (!agendaVacia()) {
+        if (agendaVacia()) {
 
             String nombreApellidoModificar = pedirNombreApellido();
             if (!verificadorContacto(nombreApellidoModificar)) {
-                System.out.println("Lo sentimos, el contacto " + nombreApellidoModificar + " no existe.");
-                System.out.println("No se pudo modificar un teléfono.");
+                System.out.println("El contacto " + nombreApellidoModificar + " no se encuentra en tu lista de contactos.");
             } else {
                 String numeroTelefono = pedirTelefono();
                 contactos.get(nombreApellidoModificar).setTelefono(numeroTelefono);
@@ -218,10 +220,10 @@ public class Agenda {
     public void agendaLlena() {
 
         if (verificarAgendaLlena()) {
-            System.out.println("La agenda está llena");
+            System.out.println("Tu agenda está llena");
         } else {
             String espacios = espacioLibres();
-            System.out.println("La agenda tiene" + espacios);
+            System.out.println("Tu agenda tiene" + espacios);
         }
 
     }
